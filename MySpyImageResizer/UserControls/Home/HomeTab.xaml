@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="MySpyImageResizer.UserControls.Home.HomeTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MySpyImageResizer.UserControls.Home"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:utils="clr-namespace:MySpyImageResizer.Utils"
+             mc:Ignorable="d" Width="773" Height="725">
+        <Grid x:Name="Surface" Width="773" Height="728" VerticalAlignment="Center" Margin="-2,0,2,0">
+                <Grid x:Name="ConfigurationGrid" Background="Transparent" Width="738" Height="465" HorizontalAlignment="Left" Margin="16,25,0,0" VerticalAlignment="Top">
+
+                        <Border CornerRadius="20, 20, 20, 20" Background="#FF272729" Height="465"/>
+                        <Border CornerRadius="20, 20, 20, 20" Background="#FF0C0C10" Width="736" Height="463">
+                                <Border.Effect>
+                                        <DropShadowEffect 
+                                                Color="Black" 
+                                                ShadowDepth="5" 
+                                                BlurRadius="30" 
+                                                Opacity="0.5" Direction="150" RenderingBias="Performance" />
+                                </Border.Effect>
+                        </Border>
+                        <Label x:Name="SettingsLabel" Content="Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="WhiteSmoke" FontFamily="Yu Gothic UI" FontWeight="Bold" FontSize="24" RenderTransformOrigin="-0.944,-1.137" Margin="23,23,0,0" Background="#00F4F4F4"/>
+                        <Label x:Name="SubSettingsLabel" Content="Choose folders, dimension and output format" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="23,61,0,0" FontSize="15" FontWeight="Bold"/>
+                        <Label x:Name="SourceFolderLabel" Content="Source folder" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="23,113,0,0" FontSize="16" FontWeight="Bold"/>
+                        <syncfusion:SfTextBoxExt x:Name="SourceFolderTextBox" HorizontalAlignment="Left" Height="38" 
+                                                 Margin="29,150,0,0" VerticalAlignment="Top" Width="218" 
+                                                 FontFamily="Yu Gothic UI" Background="#FF1A1A1E" Foreground="#FF62626A" Cursor="IBeam" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" BorderThickness="1,1,1,1" Padding="-90,8,0,0" ForceCursor="True" SuggestionBoxPlacement="None" HorizontalScrollBarVisibility="Disabled" 
+                                                 VerticalContentAlignment="Center" TextAlignment="Center" ToolTip="Source folder" PopupDelay="00:00:30" AllowDrop="True" IsUndoEnabled="False" Text="No folder selected" IsTabStop="False" FontSize="13" EnableAutoSize="True" IsReadOnly="True" UndoLimit="500" MaxLength="5" ClipToBounds="True" SnapsToDevicePixels="True"/>
+                        <syncfusion:ButtonAdv x:Name="BrowseBtn" Content="ButtonAdv" Label="Browse" IsMultiLine="False" Margin="263,150,375,277" Background="#FF18181D" Foreground="White" BorderBrush="#FF5F5B5B" IconHeight="0" IconWidth="0" BorderThickness="1,1,1,1" ClipToBounds="True" Padding="0,0,0,0" Height="38" Cursor="Hand" IsTabStop="False" Click="BrowseBtn_Click"/>
+                        <Label x:Name="WidthLabel" Content="Width (px)" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="23,227,0,0" FontSize="16" FontWeight="Bold"/>
+                        <syncfusion:IntegerTextBox x:Name="WidthTextBox" TextWrapping="Wrap" Text="IntegerTextBox" UseNullOption="True" Value="1920" VerticalAlignment="Stretch" WatermarkText="Enter your age:" WatermarkTextIsVisible="True" Margin="29,264,491,163" TextAlignment="Center" FontFamily="Century Gothic" FontSize="14" ShowSpinButton="True" ScrollInterval="100" MinValue="0"/>
+                        <syncfusion:SfTextBoxExt x:Name="OutputFolderTextBox" HorizontalAlignment="Left" Height="38" 
+                        Margin="387,150,0,0" VerticalAlignment="Top" Width="218" 
+                        FontFamily="Yu Gothic UI" Background="#FF1A1A1E" Foreground="#FF62626A" Cursor="IBeam" UseLayoutRounding="True" VerticalScrollBarVisibility="Disabled" TextWrapping="Wrap" BorderThickness="1,1,1,1" Padding="0,7,100,0" 
+                        EnableAutoSize="True" ForceCursor="True" SuggestionBoxPlacement="None" HorizontalScrollBarVisibility="Disabled" 
+                        VerticalContentAlignment="Center" TextAlignment="Center" ClipToBounds="True" SnapsToDevicePixels="True" ToolTip="Source folder" PopupDelay="00:00:30" AllowDrop="True" IsUndoEnabled="False" IsReadOnly="True" Text="Auto-Generate" IsTabStop="False" FontSize="13"/>
+                        <syncfusion:ButtonAdv x:Name="ChangeOutputBtn" Content="ButtonAdv" Label="Change" IsMultiLine="False" Margin="620,150,18,277" Background="#FF18181D" Foreground="White" BorderBrush="#FF5F5B5B" IconHeight="0" IconWidth="0" BorderThickness="1,1,1,1" ClipToBounds="True" Padding="0,0,0,0" Height="38" Cursor="Hand" IsTabStop="False" Click="ChangeOutputBtn_Click"/>
+                        <Label x:Name="WidthLabel_Copiar" Content="Height (px)" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="259,227,0,0" FontSize="16" FontWeight="Bold"/>
+                        <syncfusion:IntegerTextBox x:Name="HeightTextBox" TextWrapping="Wrap" Text="IntegerTextBox" UseNullOption="True" Value="1080" VerticalAlignment="Stretch" WatermarkTextIsVisible="True" Margin="265,264,255,163" TextAlignment="Center" FontFamily="Century Gothic" FontSize="14" ShowSpinButton="True" ScrollInterval="100" MinValue="0"/>
+                        <Label x:Name="OutputFormatLabel" Content="Outut format" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="493,227,0,0" FontSize="16" FontWeight="Bold"/>
+                        <Label x:Name="OutputFolderLabel" Content="Output folder" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="382,113,0,0" FontSize="16" FontWeight="Bold"/>
+                        <syncfusion:ComboBoxAdv x:Name="GameComboBox" DefaultText="Select a format" Margin="498,263,28,164" FontFamily="Century Gothic" BorderThickness="1,1,1,1" IsReadOnly="True" VerticalContentAlignment="Center" Padding="20,3,4,3" ScrollViewer.CanContentScroll="True" FontWeight="Bold" Background="#FF1A1A1E" Cursor="Hand" Height="38"/>
+                        <CheckBox x:Name="ZoomLevelCheckBox" Content="   Keep aspect ratio" HorizontalAlignment="Left" Margin="30,337,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" Foreground="#FF8B8B93" IsChecked="False" Height="22" Width="154"/>
+                        <Border x:Name="Line" BorderBrush="#FF847B7B" BorderThickness="2,2,2,2" Margin="33,375,29,89" Height="1"/>
+                        <syncfusion:ButtonAdv x:Name="CancelBtn" Content="ButtonAdv" Label="Cancel" IsMultiLine="False" Margin="467,390,171,37" Background="#FF18181D" Foreground="White" BorderBrush="#FF5F5B5B" IconHeight="0" IconWidth="0" BorderThickness="1,1,1,1" ClipToBounds="True" Padding="0,0,0,0" Height="38" Cursor="Hand" IsTabStop="False" Click="CancelBtn_Click"/>
+                        <syncfusion:ButtonAdv x:Name="StartResizeBtn" Content="ButtonAdv" Label="Start Resize" IsMultiLine="False" Margin="578,390,34,37" Background="#FF18181D" Foreground="White" BorderBrush="#FF5F5B5B" IconHeight="0" IconWidth="0" BorderThickness="1,1,1,1" ClipToBounds="True" Padding="0,0,0,0" Height="38" Cursor="Hand" IsTabStop="False" Click="StartResizeBtn_Click"/>
+                </Grid>
+                <Grid x:Name="ProcessingStatusGrid" Background="Transparent" Width="738" Height="202" HorizontalAlignment="Center" Margin="0,506,0,0" VerticalAlignment="Top">
+
+                        <Border CornerRadius="20, 20, 20, 20" Background="#FF272729" Height="202"/>
+                        <Border CornerRadius="20, 20, 20, 20" Background="#FF0C0C10" Width="736" Height="200">
+                                <Border.Effect>
+                                        <DropShadowEffect 
+                                                Color="Black" 
+                                                ShadowDepth="5" 
+                                                BlurRadius="30" 
+                                                Opacity="0.5" Direction="150" RenderingBias="Performance" />
+                                </Border.Effect>
+                        </Border>
+                        <Label x:Name="ProcessingStatusLabel" Content="Processing Status" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="WhiteSmoke" FontFamily="Yu Gothic UI" FontWeight="Bold" FontSize="24" RenderTransformOrigin="-0.944,-1.137" Margin="23,23,0,0" Background="#00F4F4F4"/>
+                        <Label x:Name="SubProcessingStatusLabel" Content="Track resize process in real time" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="25,61,0,0" FontSize="14" FontWeight="Bold"/>
+                        <Label x:Name="ImagesProcessedLabel" Content="0/0 images processed    •    0% complete" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="31,134,0,0" FontSize="14" FontWeight="Bold" Width="302"/>
+                        <syncfusion:SfLinearProgressBar x:Name="LinearProgressBar" Margin="31,117,35,78" TrackColor="#FF202024"/>
+                        <Label x:Name="ReadyToProcessLabel" Content="Ready to process" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="585,47,0,0" FontSize="14" FontWeight="Bold"/>
+                        <Label x:Name="ImageDetectedLabel" Content="images detected" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="588,134,0,0" FontSize="14" FontWeight="Bold"/>
+                        <Label x:Name="NumberOfImagesDetectedLabel" Content="0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF8B8B93" FontFamily="Yu Gothic UI" RenderTransformOrigin="-0.944,-1.137" Margin="575,134,0,0" FontSize="14" FontWeight="Bold"/>
+                        <Image x:Name="StatusImage" Margin="569,56,0,0" Source="/Images/etc/ReadyToProcess.png" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="-0.5,2.125" Width="12" Height="13"/>
+                </Grid>
+        </Grid>
+</UserControl>

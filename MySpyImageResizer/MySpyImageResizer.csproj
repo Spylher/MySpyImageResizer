@@ -1,0 +1,182 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\etc\ArrowDown.png" />
+    <None Remove="Images\etc\ArrowDownExtend.png" />
+    <None Remove="Images\etc\ArrowUp.png" />
+    <None Remove="Images\etc\CompletedProcess.png" />
+    <None Remove="Images\etc\InProgressProcess.png" />
+    <None Remove="Images\etc\ReadyToProcess.png" />
+    <None Remove="Images\etc\Spy.ico" />
+    <None Remove="Images\etc\Spy.png" />
+    <None Remove="Images\WindowControls\AccessDenied.png" />
+    <None Remove="Images\WindowControls\Account.png" />
+    <None Remove="Images\WindowControls\ActivityHistory.png" />
+    <None Remove="Images\WindowControls\AngelWithSword.png" />
+    <None Remove="Images\WindowControls\AngelWithSwordPurple.png" />
+    <None Remove="Images\WindowControls\AppleArcade.png" />
+    <None Remove="Images\WindowControls\Asia.png" />
+    <None Remove="Images\WindowControls\AutomaticPurple.png" />
+    <None Remove="Images\WindowControls\AvailableUpdates.png" />
+    <None Remove="Images\WindowControls\Battle.png" />
+    <None Remove="Images\WindowControls\BlackCat.png" />
+    <None Remove="Images\WindowControls\Bot.png" />
+    <None Remove="Images\WindowControls\BotPurple.png" />
+    <None Remove="Images\WindowControls\Cat.png" />
+    <None Remove="Images\WindowControls\ChevronDown.png" />
+    <None Remove="Images\WindowControls\ChristmasAngel.png" />
+    <None Remove="Images\WindowControls\Close.png" />
+    <None Remove="Images\WindowControls\CloseHover.png" />
+    <None Remove="Images\WindowControls\DeliveryTime.png" />
+    <None Remove="Images\WindowControls\DragonFruit.png" />
+    <None Remove="Images\WindowControls\Durian.png" />
+    <None Remove="Images\WindowControls\Eye.png" />
+    <None Remove="Images\WindowControls\HeartPlus.png" />
+    <None Remove="Images\WindowControls\Home.png" />
+    <None Remove="Images\WindowControls\Info.png" />
+    <None Remove="Images\WindowControls\Invisible.png" />
+    <None Remove="Images\WindowControls\Jackfruit.png" />
+    <None Remove="Images\WindowControls\Keyboard.png" />
+    <None Remove="Images\WindowControls\KeyPress.png" />
+    <None Remove="Images\WindowControls\KeyPressPurple.png" />
+    <None Remove="Images\WindowControls\Layout.png" />
+    <None Remove="Images\WindowControls\LayoutPurple.png" />
+    <None Remove="Images\WindowControls\Location.png" />
+    <None Remove="Images\WindowControls\Logout.png" />
+    <None Remove="Images\WindowControls\Mana.png" />
+    <None Remove="Images\WindowControls\Map.png" />
+    <None Remove="Images\WindowControls\MapMarker.png" />
+    <None Remove="Images\WindowControls\MapPurple.png" />
+    <None Remove="Images\WindowControls\MinecraftSword.png" />
+    <None Remove="Images\WindowControls\Minimize.png" />
+    <None Remove="Images\WindowControls\MinimizeHover.png" />
+    <None Remove="Images\WindowControls\Multiple Pages Mode.png" />
+    <None Remove="Images\WindowControls\MultiplePagesModePurple.png" />
+    <None Remove="Images\WindowControls\Music.png" />
+    <None Remove="Images\WindowControls\Navigation.png" />
+    <None Remove="Images\WindowControls\NoEntry.png" />
+    <None Remove="Images\WindowControls\Notification.png" />
+    <None Remove="Images\WindowControls\Philtre.png" />
+    <None Remove="Images\WindowControls\PhiltreGreen.png" />
+    <None Remove="Images\WindowControls\PhiltrePurple.png" />
+    <None Remove="Images\WindowControls\Portal.png" />
+    <None Remove="Images\WindowControls\Potion.png" />
+    <None Remove="Images\WindowControls\PSControllerPurple.png" />
+    <None Remove="Images\WindowControls\PS_Controller.png" />
+    <None Remove="Images\WindowControls\Restart.png" />
+    <None Remove="Images\WindowControls\RightClick.png" />
+    <None Remove="Images\WindowControls\Search.png" />
+    <None Remove="Images\WindowControls\SearchContacts.png" />
+    <None Remove="Images\WindowControls\Settings.png" />
+    <None Remove="Images\WindowControls\Shift.png" />
+    <None Remove="Images\WindowControls\SlashEye.png" />
+    <None Remove="Images\WindowControls\SugarCube.png" />
+    <None Remove="Images\WindowControls\Switch.png" />
+    <None Remove="Images\WindowControls\Sword.png" />
+    <None Remove="Images\WindowControls\Time.png" />
+    <None Remove="Images\WindowControls\WitchsHat.png" />
+    <None Remove="Images\WindowControls\WorldMap.png" />
+    <None Remove="Images\WindowControls\Wrench.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+    <PackageReference Include="Syncfusion.Grid.WPF" Version="31.2.15" />
+    <PackageReference Include="Syncfusion.Licensing" Version="31.2.15" />
+    <PackageReference Include="Syncfusion.SfBusyIndicator.WPF" Version="31.2.15" />
+    <PackageReference Include="Syncfusion.SfGrid.WPF" Version="31.2.15" />
+    <PackageReference Include="Syncfusion.SfInput.WPF" Version="31.2.15" />
+    <PackageReference Include="Syncfusion.Shared.WPF" Version="31.2.15" />
+    <PackageReference Include="Syncfusion.Themes.Windows11Dark.WPF" Version="31.2.15" />
+    <PackageReference Include="Syncfusion.Tools.WPF" Version="31.2.15" />
+    <PackageReference Include="syncfusion.ui.wpf.net" Version="31.1.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\etc\ArrowDown.png" />
+    <Resource Include="Images\etc\ArrowDownExtend.png" />
+    <Resource Include="Images\etc\ArrowUp.png" />
+    <Resource Include="Images\etc\CompletedProcess.png" />
+    <Resource Include="Images\etc\InProgressProcess.png" />
+    <Resource Include="Images\etc\ReadyToProcess.png" />
+    <Resource Include="Images\etc\Spy.ico" />
+    <Resource Include="Images\etc\Spy.png" />
+    <Resource Include="Images\WindowControls\AccessDenied.png" />
+    <Resource Include="Images\WindowControls\Account.png" />
+    <Resource Include="Images\WindowControls\ActivityHistory.png" />
+    <Resource Include="Images\WindowControls\AngelWithSword.png" />
+    <Resource Include="Images\WindowControls\AngelWithSwordPurple.png" />
+    <Resource Include="Images\WindowControls\AppleArcade.png" />
+    <Resource Include="Images\WindowControls\Asia.png" />
+    <Resource Include="Images\WindowControls\AutomaticPurple.png" />
+    <Resource Include="Images\WindowControls\AvailableUpdates.png" />
+    <Resource Include="Images\WindowControls\Battle.png" />
+    <Resource Include="Images\WindowControls\BlackCat.png" />
+    <Resource Include="Images\WindowControls\Bot.png" />
+    <Resource Include="Images\WindowControls\BotPurple.png" />
+    <Resource Include="Images\WindowControls\Cat.png" />
+    <Resource Include="Images\WindowControls\ChevronDown.png" />
+    <Resource Include="Images\WindowControls\ChristmasAngel.png" />
+    <Resource Include="Images\WindowControls\Close.png" />
+    <Resource Include="Images\WindowControls\CloseHover.png" />
+    <Resource Include="Images\WindowControls\DeliveryTime.png" />
+    <Resource Include="Images\WindowControls\DragonFruit.png" />
+    <Resource Include="Images\WindowControls\Durian.png" />
+    <Resource Include="Images\WindowControls\Eye.png" />
+    <Resource Include="Images\WindowControls\HeartPlus.png" />
+    <Resource Include="Images\WindowControls\Home.png" />
+    <Resource Include="Images\WindowControls\Info.png" />
+    <Resource Include="Images\WindowControls\Invisible.png" />
+    <Resource Include="Images\WindowControls\Jackfruit.png" />
+    <Resource Include="Images\WindowControls\Keyboard.png" />
+    <Resource Include="Images\WindowControls\KeyPress.png" />
+    <Resource Include="Images\WindowControls\KeyPressPurple.png" />
+    <Resource Include="Images\WindowControls\Layout.png" />
+    <Resource Include="Images\WindowControls\LayoutPurple.png" />
+    <Resource Include="Images\WindowControls\Location.png" />
+    <Resource Include="Images\WindowControls\Logout.png" />
+    <Resource Include="Images\WindowControls\Mana.png" />
+    <Resource Include="Images\WindowControls\Map.png" />
+    <Resource Include="Images\WindowControls\MapMarker.png" />
+    <Resource Include="Images\WindowControls\MapPurple.png" />
+    <Resource Include="Images\WindowControls\MinecraftSword.png" />
+    <Resource Include="Images\WindowControls\Minimize.png" />
+    <Resource Include="Images\WindowControls\MinimizeHover.png" />
+    <Resource Include="Images\WindowControls\Multiple Pages Mode.png" />
+    <Resource Include="Images\WindowControls\MultiplePagesModePurple.png" />
+    <Resource Include="Images\WindowControls\Music.png" />
+    <Resource Include="Images\WindowControls\Navigation.png" />
+    <Resource Include="Images\WindowControls\NoEntry.png" />
+    <Resource Include="Images\WindowControls\Notification.png" />
+    <Resource Include="Images\WindowControls\Philtre.png" />
+    <Resource Include="Images\WindowControls\PhiltreGreen.png" />
+    <Resource Include="Images\WindowControls\PhiltrePurple.png" />
+    <Resource Include="Images\WindowControls\Portal.png" />
+    <Resource Include="Images\WindowControls\Potion.png" />
+    <Resource Include="Images\WindowControls\PSControllerPurple.png" />
+    <Resource Include="Images\WindowControls\PS_Controller.png" />
+    <Resource Include="Images\WindowControls\Restart.png" />
+    <Resource Include="Images\WindowControls\RightClick.png" />
+    <Resource Include="Images\WindowControls\Search.png" />
+    <Resource Include="Images\WindowControls\SearchContacts.png" />
+    <Resource Include="Images\WindowControls\Settings.png" />
+    <Resource Include="Images\WindowControls\Shift.png" />
+    <Resource Include="Images\WindowControls\SlashEye.png" />
+    <Resource Include="Images\WindowControls\SugarCube.png" />
+    <Resource Include="Images\WindowControls\Switch.png" />
+    <Resource Include="Images\WindowControls\Sword.png" />
+    <Resource Include="Images\WindowControls\Time.png" />
+    <Resource Include="Images\WindowControls\WitchsHat.png" />
+    <Resource Include="Images\WindowControls\WorldMap.png" />
+    <Resource Include="Images\WindowControls\Wrench.png" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,56 @@
+﻿<Window x:Name="Main" x:Class="MySpyImageResizer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MySpyImageResizer"
+        mc:Ignorable="d"
+        Title="MySpy Resize" Height="798" Width="800" WindowStyle="None" AllowsTransparency="True" Background="Transparent" UseLayoutRounding="True" WindowStartupLocation="CenterScreen" FontFamily="Century Gothic"
+        xmlns:skin="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:utils="clr-namespace:MySpyImageResizer.Utils"
+        xmlns:menu="clr-namespace:MySpyImageResizer.Utils"
+        xmlns:tb="http://www.hardcodet.net/taskbar">
+
+        <Grid x:Name="Surface">
+                <Grid x:Name="MainSurface">
+                        <!-- NotifyIcon -->
+                        <tb:TaskbarIcon x:Name="MyNotifyIcon"
+                        IconSource="Images/etc/Spy.png"
+                        ToolTipText="MySpy Automation">
+                                <!-- Menu de contexto -->
+                                <tb:TaskbarIcon.ContextMenu>
+                                        <ContextMenu>
+                                                <MenuItem Header="Exit" Click="MenuItem_Exit_Click" />
+                                        </ContextMenu>
+                                </tb:TaskbarIcon.ContextMenu>
+                        </tb:TaskbarIcon>
+
+                        <Border Background="#FF121318" CornerRadius="20" />
+
+                        <DockPanel x:Name="TopPanel" LastChildFill="False" Background="Transparent" DockPanel.Dock="Top" Height="55" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Top" MouseDown="TopPanel_MouseDown">
+                                <Grid Width="800">
+                                        <Border Background="#FF010000" CornerRadius="20, 20, 0, 0" />
+                                        <Image Margin="10,10,752,9" Width="38" Height="36" Source="Images/etc/Spy.png"/>
+                                        <Label Content="MySpy" Foreground="White" Margin="65,1,607,-5" Background="#00000000" FontFamily="Century Gothic" FontSize="36" FontWeight="Bold" IsEnabled="False" Panel.ZIndex="1"/>
+                                        <Label Content="Image Resizer" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="193,15,390,-5" Background="{x:Null}" FontFamily="Century Gothic" FontSize="28" FontWeight="Bold"/>
+                                        <Button x:Name="MinimizeApp" Style="{StaticResource MinimizeApp}" Margin="726,0,54,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Click="MinimizeApp_Click" Width="20" Height="20" Cursor="Hand" />
+                                        <Button x:Name="CloseApp" Style="{StaticResource ExitApp}" Margin="767,0,0,0" HorizontalAlignment="Left" Click="CloseApp_Click" VerticalAlignment="Center" Width="20" Height="20" Cursor="Hand" />
+                                </Grid>
+                        </DockPanel>
+
+                        <DockPanel x:Name="ViewPanel" LastChildFill="False" DockPanel.Dock="Right" Width="800" Margin="0,40,0,0" HorizontalAlignment="Center">
+                                <Border Width="794" Height="748" Background="#FF121318" CornerRadius="0, 0, 20, 0" Margin="7,0,0,0">
+                                        <Grid  HorizontalAlignment="Center" Width="793">
+                                                <Border  ClipToBounds="True" BorderThickness="0,6,0,0" BorderBrush="#FF0C0C10" Height="748" VerticalAlignment="Top" Margin="0,5,0,0">
+                                                        <Border.Effect>
+                                                                <DropShadowEffect ShadowDepth="2" BlurRadius="15" RenderingBias="Performance" Direction="315"/>
+                                                        </Border.Effect>
+                                                </Border>
+                                                <ContentControl x:Name="Container" VerticalAlignment="Center" Height="728" HorizontalAlignment="Center" Width="773"/>
+                                        </Grid>
+                                </Border>
+                        </DockPanel>
+                </Grid>
+        </Grid>
+</Window>

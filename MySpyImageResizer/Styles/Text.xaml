@@ -1,0 +1,87 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:utils="clr-namespace:MySpyImageResizer.Utils">
+
+        <DataTemplate x:Key="WatermarkTemplate">
+                <TextBlock Text="{Binding}" Opacity="1" Foreground="Gray"/>
+        </DataTemplate>
+
+        <Storyboard x:Key="MouseEnterStoryboard">
+                <ColorAnimation Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#FFCACACA" Duration="0:0:0.3"/>
+        </Storyboard>
+
+        <Storyboard x:Key="MouseLeaveStoryboard">
+                 <ColorAnimation  Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" To="#616161" Duration="0:0:0.3"/>
+        </Storyboard>
+
+        <Style x:Key="Text_Style" TargetType="TextBlock">
+                <Setter Property="Margin" Value="70,0,0,0" />
+                <Setter Property="FontFamily" Value="/Fonts/#Century Gothic" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Foreground" Value="#616161" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontWeight" Value="Bold" />
+
+                <Style.Triggers>
+                        <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=utils:Btn}}" Value="True" />
+                                        <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=utils:Btn}}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+
+                                <MultiDataTrigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource MouseEnterStoryboard}" />
+                                </MultiDataTrigger.EnterActions>
+
+                                <MultiDataTrigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource MouseLeaveStoryboard}" />
+                                </MultiDataTrigger.ExitActions>
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=utils:Btn}}" Value="True" />
+                                        <Condition Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=utils:Btn}}" Value="True" />
+                                </MultiDataTrigger.Conditions>
+
+                                <MultiDataTrigger.EnterActions>
+                                        <BeginStoryboard Storyboard="{StaticResource MouseEnterStoryboard}" />
+                                </MultiDataTrigger.EnterActions>
+
+                                <MultiDataTrigger.ExitActions>
+                                        <BeginStoryboard Storyboard="{StaticResource MouseEnterStoryboard}" />
+                                </MultiDataTrigger.ExitActions>
+                        </MultiDataTrigger>
+
+                        <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=utils:Btn}}" Value="True">
+                                <Setter Property="Foreground" Value="#FFCACACA"/>
+                        </DataTrigger>
+                </Style.Triggers>
+        </Style>
+
+        <Style x:Key="Text3StateStyle" TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="/Fonts/#Century Gothic" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="Foreground" Value="#616161" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontWeight" Value="Bold" />
+
+                <Style.Triggers>
+                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" Value="0">
+                                <Setter Property="Foreground" Value="#616161" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" Value="1">
+                                <Setter Property="Foreground" Value="#FFABADB3" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button}}" Value="2">
+                                <Setter Property="Foreground" Value="#6B69D6" />
+                        </DataTrigger>
+                </Style.Triggers>
+        </Style>
+
+
+</ResourceDictionary>
