@@ -1,21 +1,8 @@
 ﻿using Microsoft.Win32;
-using Syncfusion.CompoundFile.DocIO.Net;
-using Syncfusion.XPS;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MessageBox = System.Windows.Forms.MessageBox;
-using System;
 using Directory = System.IO.Directory;
 
 namespace MySpyImageResizer.UserControls.Home;
@@ -51,11 +38,14 @@ public partial class HomeTab : UserControl
     private void StartResizeBtn_Click(object sender, RoutedEventArgs e)
     {
         LinearProgressBar.IsIndeterminate = true;
+        StatusImage.Source = new BitmapImage(new Uri("/Images/etc/InProgressProcess.png", UriKind.RelativeOrAbsolute));
     }
 
     private void CancelBtn_Click(object sender, RoutedEventArgs e)
     {
         LinearProgressBar.IsIndeterminate = false;
+        StatusImage.Source = new BitmapImage(new Uri("/Images/etc/ReadyToProcess.png", UriKind.RelativeOrAbsolute));
+        //StatusImage.Source = new BitmapImage(new Uri("/Images/etc/CompletedProcess.png", UriKind.RelativeOrAbsolute));
     }
 
     private void HandleFolderSelection(OpenFolderDialog folderDialog, TextBox textBox)
@@ -63,7 +53,24 @@ public partial class HomeTab : UserControl
         if (!string.IsNullOrEmpty(folderDialog.FolderName))
             folderDialog.InitialDirectory = Directory.GetParent(folderDialog.FolderName)!.FullName;
 
-        folderDialog.ShowDialog();
+        if (folderDialog.ShowDialog() is false)
+        {
+            textBox.Foreground = new SolidColorBrush(Color.FromRgb(98, 98, 106));
+            folderDialog.FolderName = "";
+
+            if (textBox.Name.Equals("OutputFolderTextBox", StringComparison.InvariantCultureIgnoreCase))
+            {
+                textBox.Text = "Auto-Generate";
+                textBox.Padding = new Thickness(-110, 8, 0, 0);
+            }
+            else
+            {
+                textBox.Text = "No folder selected";
+                textBox.Padding = new Thickness(-90, 8, 0, 0);
+            }
+
+            return;
+        }
 
         var folderName = folderDialog.FolderName.Split(@"\").Last();
         if (string.IsNullOrEmpty(folderName))
