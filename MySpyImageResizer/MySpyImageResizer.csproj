@@ -89,6 +89,8 @@
 
   <ItemGroup>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+    <PackageReference Include="SkiaSharp" Version="3.119.1" />
     <PackageReference Include="Syncfusion.Grid.WPF" Version="31.2.15" />
     <PackageReference Include="Syncfusion.Licensing" Version="31.2.15" />
     <PackageReference Include="Syncfusion.SfBusyIndicator.WPF" Version="31.2.15" />

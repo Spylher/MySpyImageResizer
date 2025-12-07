@@ -10,14 +10,14 @@
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:utils="clr-namespace:MySpyImageResizer.Utils"
         xmlns:menu="clr-namespace:MySpyImageResizer.Utils"
-        xmlns:tb="http://www.hardcodet.net/taskbar">
+        xmlns:tb="http://www.hardcodet.net/taskbar" Icon="/Images/etc/Spy.png">
 
         <Grid x:Name="Surface">
                 <Grid x:Name="MainSurface">
                         <!-- NotifyIcon -->
                         <tb:TaskbarIcon x:Name="MyNotifyIcon"
                         IconSource="Images/etc/Spy.png"
-                        ToolTipText="MySpy Automation">
+                        ToolTipText="MySpy Image Resizer">
                                 <!-- Menu de contexto -->
                                 <tb:TaskbarIcon.ContextMenu>
                                         <ContextMenu>
@@ -31,9 +31,9 @@
                         <DockPanel x:Name="TopPanel" LastChildFill="False" Background="Transparent" DockPanel.Dock="Top" Height="55" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Top" MouseDown="TopPanel_MouseDown">
                                 <Grid Width="800">
                                         <Border Background="#FF010000" CornerRadius="20, 20, 0, 0" />
-                                        <Image Margin="10,10,752,9" Width="38" Height="36" Source="Images/etc/Spy.png"/>
-                                        <Label Content="MySpy" Foreground="White" Margin="65,1,607,-5" Background="#00000000" FontFamily="Century Gothic" FontSize="36" FontWeight="Bold" IsEnabled="False" Panel.ZIndex="1"/>
-                                        <Label Content="Image Resizer" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="193,15,390,-5" Background="{x:Null}" FontFamily="Century Gothic" FontSize="28" FontWeight="Bold"/>
+                                        <Image Margin="15,11,741,12" Source="/Images/etc/Spy.png"/>
+                                        <Label Content="MySpy" Foreground="White" Margin="65,-4,587,5" Background="#00000000" FontFamily="Global Monospace" FontSize="42" IsEnabled="False" Panel.ZIndex="1" FontWeight="Bold"/>
+                                        <Label Content="Image Resizer" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="197,16,386,-6" Background="{x:Null}" FontFamily="Global Monospace" FontSize="25" FontWeight="Bold"/>
                                         <Button x:Name="MinimizeApp" Style="{StaticResource MinimizeApp}" Margin="726,0,54,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Click="MinimizeApp_Click" Width="20" Height="20" Cursor="Hand" />
                                         <Button x:Name="CloseApp" Style="{StaticResource ExitApp}" Margin="767,0,0,0" HorizontalAlignment="Left" Click="CloseApp_Click" VerticalAlignment="Center" Width="20" Height="20" Cursor="Hand" />
                                 </Grid>

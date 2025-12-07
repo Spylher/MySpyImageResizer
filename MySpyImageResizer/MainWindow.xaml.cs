@@ -1,15 +1,10 @@
-﻿using Microsoft.Win32;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media.Animation;
 using MySpyImageResizer.UserControls.Home;
 
 namespace MySpyImageResizer;
-
 using static App;
 
 public partial class MainWindow : Window
@@ -21,18 +16,6 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         InitializeTheme(this);
-
-        var folderDialog = new OpenFolderDialog
-        {
-            Title = "Select Folder2",
-            InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86)
-        };
-        //folderDialog.ShowDialog();
-        //if (folderDialog.ShowDialog() == true)
-        //{
-        //    var folderName = folderDialog.FolderName;
-        //    MessageBox.Show($"You picked ${folderName}!");
-        //}
         Container.Content = HomeTab;
     }
 
