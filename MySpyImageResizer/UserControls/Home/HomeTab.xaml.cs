@@ -1,5 +1,5 @@
-﻿using System.IO;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
+using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
@@ -7,17 +7,20 @@ using System.Windows.Media.Imaging;
 using Directory = System.IO.Directory;
 using MessageBox = System.Windows.Forms.MessageBox;
 using TextBox = System.Windows.Controls.TextBox;
-using UserControl = System.Windows.Controls.UserControl;
+using Cursors = System.Windows.Input.Cursors;
 
 namespace MySpyImageResizer.UserControls.Home;
 
-public partial class HomeTab : UserControl
+public partial class HomeTab
 {
     internal OpenFolderDialog SourceFolderDialog { get; set; }
     internal OpenFolderDialog OutputFolderDialog { get; set; }
-    internal string[] Extensions { get; set; } = [".jpeg", ".png", ".bmp", ".gif", ".webp", ".tiff", ".pdf"];
+    internal int ResizedFilesCount { get; set; }
+    internal string[] Extensions { get; set; } = [".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp", ".tiff", ".pdf"];
     internal int DefaultImageHeight { get; set; } = 800;
     internal int DefaultImageWidth { get; set; } = 600;
+
+    private CancellationTokenSource? _cts;
 
     public HomeTab()
     {
@@ -41,31 +44,42 @@ public partial class HomeTab : UserControl
         OutputFormatComboBox.SelectedIndex = 0;
     }
 
-    private void BrowseBtn_Click(object sender, RoutedEventArgs e) => HandleFolderSelection(SourceFolderDialog, SourceFolderTextBox);
+    private void BrowseBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (_cts?.IsCancellationRequested == false)
+            return;
 
-    private void ChangeOutputBtn_Click(object sender, RoutedEventArgs e) => HandleFolderSelection(OutputFolderDialog, OutputFolderTextBox);
-    
+        CancelBtn_Click(null!, null!);
+        HandleFolderSelection(SourceFolderDialog, SourceFolderTextBox);
+        if (string.IsNullOrEmpty(SourceFolderDialog.FolderName))
+            return;
+
+        var files = GetFiles(SourceFolderDialog.FolderName, Extensions);
+        NumberOfImagesDetectedLabel.Content = $"{files.Count}";
+        ImagesProcessedLabel.Content = $"0/{files.Count} Images processed    •    0% complete";
+    }
+
+    private void ChangeOutputBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (_cts?.IsCancellationRequested == false)
+            return;
+
+        CancelBtn_Click(null!, null!);
+        HandleFolderSelection(OutputFolderDialog, OutputFolderTextBox);
+    }
+
     private void StartResizeBtn_Click(object sender, RoutedEventArgs e)
     {
-        var sourceFolderName = SourceFolderDialog.FolderName.Split(@"\").Last();
-        if (string.IsNullOrEmpty(sourceFolderName))
+        if (_cts?.IsCancellationRequested == false)
+            return;
+
+        if (string.IsNullOrEmpty(SourceFolderDialog.FolderName.Split(@"\").Last()))
         {
             MessageBox.Show("Source Folder is not selected.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return;
         }
 
-        if (string.IsNullOrEmpty(OutputFolderDialog.FolderName))
-            OutputFolderDialog.FolderName = Path.Combine(SourceFolderDialog.FolderName, "resized");
-
-        var outputFormat = (ImageFormat)OutputFormatComboBox.SelectedItem;
-        var keepAspectRation = KeepAspectRationCheckBox.IsChecked ?? false;
-        var height = (int?)HeightTextBox.Value ?? DefaultImageHeight;
-        var width = (int?)WidthTextBox.Value ?? DefaultImageWidth;
-
-        List<string> files = [];
-        foreach (var ext in Extensions)
-            foreach (var filePath in Directory.GetFiles(SourceFolderDialog.FolderName, $"*{ext}"))
-                files.Add(filePath);
+        var files = GetFiles(SourceFolderDialog.FolderName, Extensions);
 
         if (files.Count is 0)
         {
@@ -73,27 +87,129 @@ public partial class HomeTab : UserControl
             return;
         }
 
-        LinearProgressBar.IsIndeterminate = true;
-        StatusImage.Source = new BitmapImage(new Uri("/Images/etc/InProgressProcess.png", UriKind.RelativeOrAbsolute));
+        if (string.IsNullOrEmpty(OutputFolderDialog.FolderName) || OutputFolderTextBox.Text.Equals("Auto-Generate", StringComparison.InvariantCultureIgnoreCase))
+            OutputFolderDialog.FolderName = Path.Combine(SourceFolderDialog.FolderName, "resized");
 
         if (!Directory.Exists(OutputFolderDialog.FolderName))
             Directory.CreateDirectory(OutputFolderDialog.FolderName);
 
-        foreach (var filePath in files)
-        {
-            //var outputFilePath = Path.Combine(OutputFolderDialog.FolderName, $"{Path.GetFileName(filePath)}");
-            ImageHelper.ResizeImage(filePath, OutputFolderDialog.FolderName, width, height, outputFormat, keepAspectRation);
-        }
+        NumberOfImagesDetectedLabel.Content = $"{files.Count}";
+        ReadyToProcessLabel.Content = "Process in progress";
 
-        LinearProgressBar.IsIndeterminate = false;
-        StatusImage.Source = new BitmapImage(new Uri("/Images/etc/CompletedProcess.png", UriKind.RelativeOrAbsolute));
+        ImagesProcessedLabel.Content = ImagesProcessedLabel.Content?.ToString()?.Replace("0/0", $"0/{files.Count}");
+        StatusImage.Source = new BitmapImage(new Uri("/Images/etc/InProgressProcess.png", UriKind.RelativeOrAbsolute));
+        LinearProgressBar.Progress = 0;
+        StartResizeBtn.Cursor = Cursors.No;
+        BrowseBtn.Cursor = Cursors.No;
+        ChangeOutputBtn.Cursor = Cursors.No;
+        ResizedFilesCount = 0;
+
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        var token = _cts.Token;
+
+        // update UI asynchronously
+        Task.Run(() => UpdateUiAsync(files, token), token);
+
+        // perform resizing asynchronously
+        var outputFormat = (ImageFormat)OutputFormatComboBox.SelectedItem;
+        var keepAspectRation = KeepAspectRationCheckBox.IsChecked ?? false;
+        var keepDimensions = ConvertFormatOnlyCheckBox.IsChecked ?? false;
+        var height = (int?)HeightTextBox.Value ?? DefaultImageHeight;
+        var width = (int?)WidthTextBox.Value ?? DefaultImageWidth;
+
+        Task.Run(async () =>
+        {
+            await ResizeImagesAsync(files, outputFormat, keepAspectRation, keepDimensions, height, width, token);
+        }, token);
+    }
+
+    private async Task UpdateUiAsync(List<string> files, CancellationToken ct)
+    {
+        try
+        {
+            var filesCount = files.Count;
+
+            while (!ct.IsCancellationRequested)
+            {
+                _ = Dispatcher.InvokeAsync(() =>
+                {
+                    var percent = (double)ResizedFilesCount / filesCount * 100;
+
+                    ImagesProcessedLabel.Content = $"{ResizedFilesCount}/{filesCount} Images processed    •    {(int)percent}% complete";
+                    LinearProgressBar.Progress = percent;
+                });
+
+                if (ResizedFilesCount == filesCount)
+                {
+                    _ = Dispatcher.InvokeAsync(() =>
+                    {
+                        LinearProgressBar.ProgressColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF19C07B"));
+                        StatusImage.Source = new BitmapImage(new Uri("/Images/etc/CompletedProcess.png", UriKind.RelativeOrAbsolute));
+                        ReadyToProcessLabel.Content = "Completed process";
+                    });
+
+                    _cts?.CancelAsync();
+                }
+
+                await Task.Delay(10, ct);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            //...
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error: {ex}");
+        }
+        finally
+        {
+            _ = Dispatcher.InvokeAsync(() => StartResizeBtn.Cursor = Cursors.Hand);
+        }
+    }
+
+    private async Task ResizeImagesAsync(List<string> files, ImageFormat outputFormat, bool keepAspectRation, bool keepDimensions, int height, int width, CancellationToken ct)
+    {
+        if (!ct.IsCancellationRequested)
+        {
+            //await Task.Delay(2000, ct);
+
+            try
+            {
+                foreach (var filePath in files)
+                {
+                    ImageHelper.ResizeImage(filePath, OutputFolderDialog.FolderName, width, height, outputFormat, keepAspectRation, keepDimensions);
+                    ResizedFilesCount++;
+
+                    await Task.Delay(1, ct);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex}");
+            }
+
+            await Task.Delay(10, ct);
+        }
     }
 
     private void CancelBtn_Click(object sender, RoutedEventArgs e)
     {
-        LinearProgressBar.IsIndeterminate = false;
-        StatusImage.Source = new BitmapImage(new Uri("/Images/etc/ReadyToProcess.png", UriKind.RelativeOrAbsolute));
-        //StatusImage.Source = new BitmapImage(new Uri("/Images/etc/CompletedProcess.png", UriKind.RelativeOrAbsolute));
+        _cts?.Cancel();
+        StartResizeBtn.Cursor = Cursors.Hand;
+        BrowseBtn.Cursor = Cursors.Hand;
+        ChangeOutputBtn.Cursor = Cursors.Hand;
+        ImagesProcessedLabel.Content = "0/0 Images processed    •    0% complete";
+        LinearProgressBar.Progress = 0;
+        LinearProgressBar.ProgressColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF6B69D6"));
+        StatusImage.Source = new BitmapImage(new Uri("/Images/etc/InProgressProcess.png", UriKind.RelativeOrAbsolute));
+        ReadyToProcessLabel.Content = "Ready to process";
+
     }
 
     private void HandleFolderSelection(OpenFolderDialog folderDialog, TextBox textBox)
@@ -129,4 +245,41 @@ public partial class HomeTab : UserControl
         textBox.Text = folderName[..Math.Min(23, folderName.Length)];
     }
 
+    private List<string> GetFiles(string path, params string[] extensions)
+    {
+        List<string> files = [];
+
+        if (extensions.Length is 0)
+            return Directory.EnumerateFiles(path).ToList();
+
+        foreach (var ext in extensions)
+            foreach (var filePath in Directory.EnumerateFiles(path, $"*{ext}"))
+                files.Add(filePath);
+
+        return files;
+    }
+
+    private void ConvertFormatOnlyCheckBox_Click(object sender, RoutedEventArgs e)
+    {
+        var isChecked = ConvertFormatOnlyCheckBox.IsChecked ?? false;
+        var keepIsChecked = KeepAspectRationCheckBox.IsChecked ?? false;
+
+        WidthTextBox.IsEnabled = !isChecked;
+
+        if (!keepIsChecked)
+            HeightTextBox.IsEnabled = !isChecked;
+    }
+
+    private void KeepAspectRationCheckBox_Click(object sender, RoutedEventArgs e)
+    {
+        var isChecked = KeepAspectRationCheckBox.IsChecked ?? false;
+        var convertIsChecked = ConvertFormatOnlyCheckBox.IsChecked ?? false;
+
+        if (!convertIsChecked)
+            HeightTextBox.IsEnabled = !isChecked;
+
+        if (isChecked)
+            MessageBox.Show("The image is resized proportionally based on its width, preserving the original width-to-height ratio.",
+                "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
 }

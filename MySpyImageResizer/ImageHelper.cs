@@ -18,23 +18,26 @@ namespace MySpyImageResizer;
 internal static class ImageHelper
 {
     public static void ResizeImage(string inputFilePath, string outputPath, int width, int height,
-        ImageFormat outputFormat, bool keepAspectRatio = false)
+        ImageFormat outputFormat, bool keepAspectRatio = false, bool keepDimensions = false)
     {
         var outputFilePath = EnsureNewExtension(Path.Combine(outputPath, Path.GetFileName(inputFilePath)), outputFormat);
         using var image = Image.Load(inputFilePath);
 
-        if (keepAspectRatio)
+        if (!keepDimensions)
         {
-            image.Mutate(x => x.Resize(new ResizeOptions
+            if (keepAspectRatio)
             {
-                Mode = ResizeMode.Max,     // keep aspect ratio
-                Size = new Size(width, height),
-                Sampler = KnownResamplers.Lanczos3,
-                Compand = true // 
-            }));
+                image.Mutate(x => x.Resize(new ResizeOptions
+                {
+                    Mode = ResizeMode.Max,     // keep aspect ratio
+                    Size = new Size(width, height),
+                    Sampler = KnownResamplers.Lanczos3,
+                    Compand = true // 
+                }));
+            }
+            else
+                image.Mutate(x => x.Resize(width, height));
         }
-        else
-            image.Mutate(x => x.Resize(width, height));
 
         // Used SkiaSharp because ImageSharp don't support PDF export
         if (outputFormat == ImageFormat.Pdf)
