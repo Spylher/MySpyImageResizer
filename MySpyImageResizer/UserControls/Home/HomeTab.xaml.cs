@@ -49,7 +49,7 @@ public partial class HomeTab
         if (_cts?.IsCancellationRequested == false)
             return;
 
-        CancelBtn_Click(null!, null!);
+        ResetUi();
         HandleFolderSelection(SourceFolderDialog, SourceFolderTextBox);
         if (string.IsNullOrEmpty(SourceFolderDialog.FolderName))
             return;
@@ -64,7 +64,7 @@ public partial class HomeTab
         if (_cts?.IsCancellationRequested == false)
             return;
 
-        CancelBtn_Click(null!, null!);
+        //ResetUi();
         HandleFolderSelection(OutputFolderDialog, OutputFolderTextBox);
     }
 
@@ -165,7 +165,12 @@ public partial class HomeTab
         }
         finally
         {
-            _ = Dispatcher.InvokeAsync(() => StartResizeBtn.Cursor = Cursors.Hand);
+            _ = Dispatcher.InvokeAsync(() =>
+            {
+                BrowseBtn.Cursor = Cursors.Hand;
+                ChangeOutputBtn.Cursor = Cursors.Hand;
+                StartResizeBtn.Cursor = Cursors.Hand;
+            });
         }
     }
 
@@ -173,8 +178,6 @@ public partial class HomeTab
     {
         if (!ct.IsCancellationRequested)
         {
-            //await Task.Delay(2000, ct);
-
             try
             {
                 foreach (var filePath in files)
@@ -201,15 +204,7 @@ public partial class HomeTab
     private void CancelBtn_Click(object sender, RoutedEventArgs e)
     {
         _cts?.Cancel();
-        StartResizeBtn.Cursor = Cursors.Hand;
-        BrowseBtn.Cursor = Cursors.Hand;
-        ChangeOutputBtn.Cursor = Cursors.Hand;
-        ImagesProcessedLabel.Content = "0/0 Images processed    •    0% complete";
-        LinearProgressBar.Progress = 0;
-        LinearProgressBar.ProgressColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF6B69D6"));
-        StatusImage.Source = new BitmapImage(new Uri("/Images/etc/InProgressProcess.png", UriKind.RelativeOrAbsolute));
-        ReadyToProcessLabel.Content = "Ready to process";
-
+        ResetUi();
     }
 
     private void HandleFolderSelection(OpenFolderDialog folderDialog, TextBox textBox)
@@ -282,4 +277,20 @@ public partial class HomeTab
             MessageBox.Show("The image is resized proportionally based on its width, preserving the original width-to-height ratio.",
                 "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
+
+    private void ResetUi()
+    {
+        BrowseBtn.Cursor = Cursors.Hand;
+        ChangeOutputBtn.Cursor = Cursors.Hand;
+        StartResizeBtn.Cursor = Cursors.Hand;
+
+        ReadyToProcessLabel.Content = "Ready to process";
+        ImagesProcessedLabel.Content = "0/0 Images processed    •    0% complete";
+        StatusImage.Source = new BitmapImage(new Uri("/Images/etc/InProgressProcess.png", UriKind.RelativeOrAbsolute));
+        NumberOfImagesDetectedLabel.Content = "0";
+
+        LinearProgressBar.Progress = 0;
+        LinearProgressBar.ProgressColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF6B69D6"));
+    }
+
 }

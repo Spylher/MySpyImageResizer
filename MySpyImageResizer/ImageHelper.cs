@@ -8,7 +8,6 @@ using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.Formats.Tiff;
 using SixLabors.ImageSharp.Processing;
 using System.IO;
-using System.Windows.Forms;
 using SkiaSharp;
 using Image = SixLabors.ImageSharp.Image;
 using Size = SixLabors.ImageSharp.Size;
@@ -95,7 +94,8 @@ internal static class ImageHelper
         return format switch
         {
             ImageFormat.Jpeg => new JpegEncoder { Quality = 100, ColorType = JpegEncodingColor.YCbCrRatio444, Interleaved = true },
-            ImageFormat.Png => new PngEncoder { CompressionLevel = PngCompressionLevel.BestCompression, },
+            ImageFormat.Png => new PngEncoder (),
+            //ImageFormat.Png => new PngEncoder { CompressionLevel = PngCompressionLevel.BestCompression, },
             ImageFormat.Bmp => new BmpEncoder(),
             ImageFormat.Gif => new GifEncoder(),
             ImageFormat.Webp => new WebpEncoder() { Quality = 100, FileFormat = WebpFileFormatType.Lossless },
