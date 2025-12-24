@@ -31,9 +31,9 @@
                         <DockPanel x:Name="TopPanel" LastChildFill="False" Background="Transparent" DockPanel.Dock="Top" Height="55" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Top" MouseDown="TopPanel_MouseDown">
                                 <Grid Width="800">
                                         <Border Background="#FF010000" CornerRadius="20, 20, 0, 0" />
-                                        <Image Margin="28,11,744,12" Source="/Images/etc/Spy.png" Width="28"/>
-                                        <Label Content="MySpy" Foreground="White" Margin="65,-4,587,5" Background="#00000000" FontFamily="Global Monospace" FontSize="42" IsEnabled="False" Panel.ZIndex="1" FontWeight="Bold"/>
-                                        <Label Content="Image Resizer" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="197,16,386,-6" Background="{x:Null}" FontFamily="Global Monospace" FontSize="25" FontWeight="Bold"/>
+                                        <Image Margin="11,-4,725,-5" Source="/Images/etc/Spy.ico" Stretch="Fill" Width="60" Height="60"/>
+                                        <Label Content="MySpy" Foreground="White" Margin="68,-5,584,1" Background="#00000000" FontFamily="Yu Gothic UI" FontSize="38" IsEnabled="False" Panel.ZIndex="1" FontWeight="Bold"/>
+                                        <Label Content="Image Resizer" Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Margin="193,13,390,-3" Background="{x:Null}" FontFamily="Yu Gothic UI" FontSize="26" FontWeight="Bold"/>
                                         <Button x:Name="MinimizeApp" Style="{StaticResource MinimizeApp}" Margin="726,0,54,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Click="MinimizeApp_Click" Width="20" Height="20" Cursor="Hand" />
                                         <Button x:Name="CloseApp" Style="{StaticResource ExitApp}" Margin="767,0,0,0" HorizontalAlignment="Left" Click="CloseApp_Click" VerticalAlignment="Center" Width="20" Height="20" Cursor="Hand" />
                                 </Grid>
