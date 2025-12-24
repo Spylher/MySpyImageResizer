@@ -94,11 +94,9 @@ public partial class HomeTab
         if (!Directory.Exists(OutputFolderDialog.FolderName))
             Directory.CreateDirectory(OutputFolderDialog.FolderName);
 
-        NumberOfImagesDetectedLabel.Content = $"{files.Count}";
         ReadyToProcessLabel.Content = "Process in progress";
-
-        ImagesProcessedLabel.Content = ImagesProcessedLabel.Content?.ToString()?.Replace("0/0", $"0/{files.Count}");
         StatusImage.Source = new BitmapImage(new Uri("/Images/etc/InProgressProcess.png", UriKind.RelativeOrAbsolute));
+        LinearProgressBar.ProgressColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF6B69D6"));
         LinearProgressBar.Progress = 0;
         StartResizeBtn.Cursor = Cursors.No;
         BrowseBtn.Cursor = Cursors.No;
