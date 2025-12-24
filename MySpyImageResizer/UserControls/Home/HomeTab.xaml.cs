@@ -1,13 +1,14 @@
 ﻿using Microsoft.Win32;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Cursors = System.Windows.Input.Cursors;
 using Directory = System.IO.Directory;
 using MessageBox = System.Windows.Forms.MessageBox;
 using TextBox = System.Windows.Controls.TextBox;
-using Cursors = System.Windows.Input.Cursors;
 
 namespace MySpyImageResizer.UserControls.Home;
 
@@ -148,6 +149,18 @@ public partial class HomeTab
                         StatusImage.Source = new BitmapImage(new Uri("/Images/etc/CompletedProcess.png", UriKind.RelativeOrAbsolute));
                         ReadyToProcessLabel.Content = "Completed process";
                     });
+
+
+                    var dResult = MessageBox.Show(
+                        "Would you like to open the output folder?",
+                        "Information",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Information
+                    );
+
+                    if (dResult == DialogResult.Yes)
+                        if (!OpenFolderInExplorer(OutputFolderDialog.FolderName))
+                            MessageBox.Show("Output folder not found.");
 
                     _cts?.CancelAsync();
                 }
@@ -291,6 +304,20 @@ public partial class HomeTab
 
         LinearProgressBar.Progress = 0;
         LinearProgressBar.ProgressColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF6B69D6"));
+    }
+
+    private static bool OpenFolderInExplorer(string path)
+    {
+        if (!Directory.Exists(path))
+            return false;
+
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = path,
+            UseShellExecute = true
+        });
+
+        return true;
     }
 
 }
